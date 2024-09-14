@@ -1,39 +1,13 @@
 version: "3.8"
 services:
-  # db:
-  #   image: postgres
-  #   restart: always
-  #   environment:
-  #     POSTGRES_USER: nmv #${POSTGRES_USER}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #     POSTGRES_DB: mia_memory #${POSTGRES_DB}
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - ./sql_initdb:/docker-entrypoint-initdb.d
-  #   healthcheck:
-  #     test: [ "CMD-SHELL", "pg_isready -U mia_memory" ]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 5
   fastapi-app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    # depends_on:
-    #   - db
     environment:
       - PYTHONUNBUFFERED=1
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
     volumes:
       - .:/app
-  # redis:
-  #     image: redis:latest
-  #     ports:
-  #         - 6379:6379
-  #     volumes:
-  #         - ./redis_config/redis.conf:/redis.conf
-  #     command: [ "redis-server", "/redis.conf" ]
-
